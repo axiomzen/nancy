@@ -1,0 +1,25 @@
+{
+  "name": "nancy",
+  "version": "1.0.0",
+  "description": "Nancy",
+  "main": "index.js",
+  "scripts": {
+    "start": "NODE_ENV=development nodemon src/index.js",
+    "lint": "eslint src/**/*.js",
+    "test": "npm run lint"
+  },
+  "author": "@axiomzenteam",
+  "license": "MIT",
+  "dependencies": {
+    "botkit": "^0.5.7",
+    "dark-sky-api": "^0.6.21",
+    "moment": "^2.18.1",
+    "parzen-js": "^0.0.10"
+  },
+  "devDependencies": {
+    "eslint": "^4.3.0",
+    "eslint-plugin-es6-recommended": "^0.1.2",
+    "nodemon": "^1.11.0",
+    "prettier": "^1.6.1"
+  }
+}
