@@ -1,7 +1,7 @@
 const Botkit = require('botkit');
 const { patterns, definePatterns, runPatterns } = require('./patterns');
 
-// Ensure we have the api tokens
+// Ensure we have the Slack token
 if (!process.env.SLACK_API_TOKEN) {
   throw new Error('SLACK_API_TOKEN environment variable is reqiured.');
 }
