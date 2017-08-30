@@ -20,3 +20,7 @@ Finally, you need a Parzen API key. Please signup for beta access [here](https:/
 - `source .env` to load the keys
 - `yarn install`
 - `yarn start`
+
+## License
+
+This repo uses the [MIT License](https://github.com/axiomzen/nancy/blob/master/LICENSE)
