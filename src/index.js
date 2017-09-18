@@ -22,14 +22,14 @@ controller.spawn({ token: process.env.SLACK_API_TOKEN }).startRTM();
 definePatterns(patterns).then(patterns =>
   controller.hears(
     '.*',
-    ['mention', 'direct_mention', 'direct_message'],
+    ['mention', 'direct_mention', 'direct_message', 'ambient'],
     async (bot, message) => {
       console.log(`Message: ${message.text}`);
 
-      const response = await runPatterns(patterns, message.text);
-      if (response) {
-        bot.reply(message, response);
-      }
+      const respond = res => {
+        if (res) bot.reply(message, res);
+      };
+      await runPatterns(patterns, message.text, respond);
     }
   )
 );

@@ -1,6 +1,6 @@
 const Parzen = require('parzen-js');
 const P = Parzen.default;
-const { API, seq, or } = Parzen;
+const { API } = Parzen;
 const { weatherForTime } = require('./weather');
 
 /*
@@ -18,9 +18,9 @@ const api = new API(process.env.PARZEN_API_KEY);
 module.exports.patterns = [
   // Greeting pattern
   {
-    pattern: seq(
-      or(P.like('hello'), P.like('hey')),
-      P.until(or(P.person(), P.propn()), { name: 'name' })
+    pattern: P.seq(
+      P.or(P.like('hello'), P.like('hey')),
+      P.until(P.or(P.person(), P.propn()), { name: 'name' })
     ),
     res: match => {
       const { name } = match.captures;
@@ -29,7 +29,7 @@ module.exports.patterns = [
   },
   // Weather pattern
   {
-    pattern: seq(
+    pattern: P.seq(
       P.until(P.word('weather')),
       P.until(P.date(), { name: 'date' })
     ),
@@ -53,12 +53,13 @@ module.exports.definePatterns = async patterns =>
     })
   );
 
-module.exports.runPatterns = async (patterns, text) => {
-  for (let i = 0; i < patterns.length; i += 1) {
-    const { parser, res } = patterns[i];
-    const match = await parser.parse(text);
-    if (match.successful) {
-      return await res(match);
+module.exports.runPatterns = async (patterns, text, respond) => {
+  const matches = await P.parseMultiple(patterns.map(p => p.parser), text);
+  matches.forEach(async (m, i) => {
+    if (m.successful) {
+      const pm = patterns[i];
+      const res = await pm.res(m);
+      respond(res);
     }
-  }
+  });
 };
